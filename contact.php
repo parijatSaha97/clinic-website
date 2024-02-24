@@ -1,9 +1,69 @@
+<?php
+include_once('connection.php');
+?>
+<?php
+// check post call
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // check 'sb_btn' value is 1 or not
+    if(isset( $_POST['sb_btn'] )){
+        $customer_name = $_POST['username'] ;
+        $customer_email = $_POST['useremail'];
+        $customer_phone_no = $_POST['userphone'] ;
+        $date = $_POST['date'];
+        $customer_subject = $_POST['subject'];
+        $customer_massage = $_POST['massage'];
+        $form_valid = true; // variable to track form validation
+        // Check if email is valid and not empty
+        if (!filter_var($customer_email, FILTER_VALIDATE_EMAIL) || empty($customer_email)) {
+            echo "<script> alert ('Invalid or empty email address'); window.location.href = 'contact.php';  </script>";
+            $form_valid = false;
+            return;
+            // Handle the error or redirect back to the form
+        }
+
+        // Check if phone number is valid and not empty
+        if (!preg_match("/^[0-9]{10}$/", $customer_phone_no) || empty($customer_phone_no)) {
+            echo "<script> alert ('Invalid or empty phone number'); window.location.href = 'contact.php';  </script>";
+            $form_valid = false;
+            return;
+            // Handle the error or redirect back to the form
+        }
+
+        // Check if date is empty
+        if (empty($date)) {
+            echo "<script> alert ('Date is required'); window.location.href = 'contact.php';  </script>";
+            // Handle the error or redirect back to the form
+        }
+
+        // Check if subject is empty
+        if (empty($customer_subject)) {
+            echo "<script> alert ('Subject is required'); window.location.href = 'contact.php';  </script>";
+            // Handle the error or redirect back to the form
+        }
+
+        // $cus_insert_query = mysqli_query($conn ,"INSERT INTO customer_requirements (name,email,phone_no,date,masaage) VALUES ('$customer_name','$customer_email','$customer_phone_no','$date','$customer_subject')");
+        $cus_insert_query =  mysqli_prepare($conn, "INSERT INTO customer_requirements (name, email, phone_no, date,subject, masaage) VALUES (?, ?, ?, ?, ? ,?)");
+        // Bind parameters
+        mysqli_stmt_bind_param($cus_insert_query, "ssssss", $customer_name, $customer_email, $customer_phone_no, $date, $customer_subject,$customer_massage);
+
+        // Execute the statement
+        if (mysqli_stmt_execute($cus_insert_query)) {
+            echo "<script>alert('Data submitted')</script> ";
+        } else {
+            echo "<script>alert('Data not submitted, Please Check Again'); window.location.href = 'contact.php';  </script>";
+        }
+    }
+}
+
+ ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Klinik - Clinic Website Template</title>
+    <title>Cc Polyclinic</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -75,7 +135,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
         <a href="index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h1 class="m-0 text-primary"><i class="far fa-hospital me-3"></i>Klinik</h1>
+            <h1 class="m-0 text-primary"><i class="far fa-hospital me-3"></i>Care & Cure Polyclinic</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -156,37 +216,52 @@
                         </div>
                     </div>
                 </div>
+            <form method="post" id="contact_form">
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                     <div class="bg-light rounded p-5">
                         <p class="d-inline-block border rounded-pill py-1 px-4">Contact Us</p>
                         <h1 class="mb-4">Have Any Query? Please Contact Us!</h1>
-                        <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
+                        <p class="mb-4">Your health , Our Responsibility <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
                         <form>
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control" id="name" name="username" placeholder="Your Name">
                                         <label for="name">Your Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control" id="email" name="useremail" placeholder="Your Email">
                                         <label for="email">Your Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="phone" class="form-control" id="phone" name="userphone" placeholder="Your Phone Number">
+                                        <label for="Phone">Your Phone No</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                        <input type="date" class="form-control" id="date" name="date" placeholder="Select a date">
+                                        <label for="date">Select a Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
                                         <label for="subject">Subject</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
+                                        <textarea class="form-control" placeholder="Leave a message here"  name="massage" id="message" style="height: 100px"></textarea>
                                         <label for="message">Message</label>
                                     </div>
                                 </div>
+                                <!-- Add the hidden input for form submission check -->
+                                <input type="hidden" name="sb_btn" value="1">
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
                                 </div>
@@ -194,6 +269,7 @@
                         </form>
                     </div>
                 </div>
+            </form>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="h-100" style="min-height: 400px;">
                         <iframe class="rounded w-100 h-100"
