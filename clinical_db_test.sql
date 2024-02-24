@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2023 at 04:03 AM
+-- Generation Time: Feb 24, 2024 at 06:18 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -20,6 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Database: `clinical_db_test`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_requirements`
+--
+
+CREATE TABLE `customer_requirements` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `phone_no` varchar(10) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `subject` varchar(300) NOT NULL,
+  `masaage` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer_requirements`
+--
+
+INSERT INTO `customer_requirements` (`id`, `name`, `email`, `phone_no`, `date`, `subject`, `masaage`) VALUES
+(1, 'parijat', 'parijat.saha@gmail.com', '7980787656', '2023-12-17 18:30:00', '', 'test'),
+(2, '', '', '', '0000-00-00 00:00:00', '', ''),
+(3, 'shrin', 'shrin@gmail.com', '45', '0000-00-00 00:00:00', '', ''),
+(4, 'shrin', 'shrin@gmail.com', '7777777777', '0000-00-00 00:00:00', '', ''),
+(5, 'shrin', 'shrin@gmail.com', '6786456545', '0000-00-00 00:00:00', '', 'test'),
+(6, 'shrin', 'shrin@gmail.com', '6789034567', '2023-12-17 18:30:00', '', 'test'),
+(7, 'sht', 'shrin@gmail.com', '7890345673', '2023-12-17 18:30:00', '', 'docor require'),
+(8, 'sd', 'sd@gmail.com', '4523123456', '2023-12-16 18:30:00', 'new', 'i need doc'),
+(9, 'Parijat', 'sd@gmail.com', '7987897589', '2024-02-23 18:30:00', 'test', 'test1');
 
 -- --------------------------------------------------------
 
@@ -56,6 +87,12 @@ INSERT INTO `doctor_lists` (`id`, `doctor_name`, `experience`, `department`, `de
 --
 
 --
+-- Indexes for table `customer_requirements`
+--
+ALTER TABLE `customer_requirements`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `doctor_lists`
 --
 ALTER TABLE `doctor_lists`
@@ -64,6 +101,12 @@ ALTER TABLE `doctor_lists`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `customer_requirements`
+--
+ALTER TABLE `customer_requirements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `doctor_lists`
