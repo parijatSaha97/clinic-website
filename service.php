@@ -65,6 +65,7 @@
                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-linkedin-in"></i></a>
                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href=""><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" title="Sign In/Log In" href="login.php"><i class="fas fa-sign-in-alt"></i></a>
                 </div>
             </div>
         </div>
