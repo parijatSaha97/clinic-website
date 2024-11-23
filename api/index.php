@@ -1,3 +1,10 @@
+<?php
+// Get the base URL dynamically
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'];
+$basePath = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$baseUrl = "$protocol://$host$basePath";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
