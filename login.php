@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Login Page</title>
+    <title>Login/Sign In</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-HwGEAAOng7z5l15VrB9D9OuYfGTx2o94Aj3jGdoEdM/gydjR45c49V+XCGwWsYT5" crossorigin="anonymous">
     <style>
         /* Reset some default styles */
@@ -124,19 +124,66 @@
         .social-icons a:hover {
             opacity: 1;
         }
+
+        .login-sections {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .login-sections div {
+            width: 48%;
+            cursor: pointer;
+            transition: border 0.3s ease-out;
+        }
+
+        .active-section {
+            border: 2px solid #1748fb;
+        }
+        .admin_class{
+            background-color: yellowgreen;
+    border-radius: 50px;
+        }
+        .user_class{
+            background-color: seagreen;;
+    border-radius: 50px;
+        }
+        @media (max-width: 768px) {
+            .login-sections {
+                flex-direction: column;
+            }
+
+            .login-sections div {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h2>Login</h2>
-        <form class="login-form">
+<div class="login-container">
+    <h2>Login</h2>
+    <div class="login-sections">
+        <div class="" onclick="toggleSection('admin')">
+            <h2 class="admin_section admin_class">Admin</h2>
+        </div>
+        <div class="" onclick="toggleSection('user')">
+            <h2 class="user_section user_class">User</h2>
+        </div>
+    </div>
+    <div>
+        <form id="login-form-admin" class="login-form" style="display: none;">
+            <input type="text" class="login-input" placeholder="Username" required>
+            <input type="password" class="login-input" placeholder="Password" required>
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <form id="login-form-user" class="login-form" style="display: none;">
             <input type="text" class="login-input" placeholder="Username" required>
             <input type="password" class="login-input" placeholder="Password" required>
             <button type="submit" class="login-button">Login</button>
         </form>
         <div class="login-footer">
-            <p>Don't have an account? <a href="#">Sign up</a></p>
+            <p>Don't have an account? <a href="signup.php">Sign up</a></p>
         </div>
         <div class="social-icons">
             <a href="#" class="fas fa-facebook"></a>
@@ -145,6 +192,23 @@
             <a href="#" class="fas fa-instagram"></a>
         </div>
     </div>
+</div>
+
+<script>
+    function toggleSection(section) {
+        if (section === 'admin') {
+            document.querySelector('.admin_section').classList.add('active-section');
+            document.querySelector('.user_section').classList.remove('active-section');
+            document.getElementById('login-form-admin').style.display = 'block';
+            document.getElementById('login-form-user').style.display = 'none';
+        } else if (section === 'user') {
+            document.querySelector('.user_section').classList.add('active-section');
+            document.querySelector('.admin_section').classList.remove('active-section');
+            document.getElementById('login-form-user').style.display = 'block';
+            document.getElementById('login-form-admin').style.display = 'none';
+        }
+    }
+</script>
 
 </body>
 </html>

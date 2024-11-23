@@ -1,5 +1,7 @@
 <?php
-include_once('connection.php');
+// include_once('connection.php');
+include_once __DIR__ . '/connection.php';
+
 ?>
 <?php
 // check post call

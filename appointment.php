@@ -1,5 +1,7 @@
 <?php
-include_once('connection.php');
+// include_once('connection.php');
+include_once __DIR__ . '/connection.php';
+
 ?>
 <?php
 $doctors_list = mysqli_query($conn, "SELECT * FROM doctor_lists") ;
